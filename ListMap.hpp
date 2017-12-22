@@ -83,7 +83,6 @@ const typename Map<KEY, VALUE>::Iterator ListMap<KEY, VALUE>::find(
       if ((*it).key == key)
       {
          foundIt = it;
-         Serial.println("Found it");
          break;
       }
    }
@@ -107,9 +106,7 @@ const typename Map<KEY, VALUE>::Iterator ListMap<KEY, VALUE>::put(
   if (foundIt == end())
   {
      list.add(typename Map<KEY, VALUE>::Element(key, value));
-     Serial.printf("Added to list %d\n", list.length());
      foundIt = find(key);  // TODO: A better way.
-     Serial.println("Found it");
   }
   else
   {
@@ -149,13 +146,8 @@ VALUE& ListMap<KEY, VALUE>::operator[](
   typename Map<KEY, VALUE>::Iterator foundIt = find(key);
   if (foundIt == end())
   {
-     Serial.println("ListMap<KEY, VALUE>::operator[]");
-     typename Map<KEY, VALUE>::Element element(key, VALUE());
-     Serial.println("Made element");  
-     list.add(element);
-     Serial.printf("Added to list, %d\n", list.length());
+     list.add(typename Map<KEY, VALUE>::Element(key, VALUE()));
      foundIt = find(key);  // TODO: A better way.
-     Serial.printf("foundIt = %s\n", foundIt != end() ? "true" : "false");
   }
 
   return ((*foundIt).value);

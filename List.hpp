@@ -15,10 +15,11 @@ public:
    {
    public:
 
-      BaseIterator() {}
+       BaseIterator() {}
        virtual ~BaseIterator() {}
        virtual void  operator++(int) {}
        virtual T& operator*() const {/*return T();*/}
+       virtual BaseIterator* clone() const {/*return new BaseIterator(*this);*/}
        
        // The == operator is non-virtual. It checks that the derived objects have compatible types, then calls the
        // virtual comparison function equal.
@@ -34,11 +35,14 @@ public:
    public:
 
        Iterator(BaseIterator* iterator) : iterator(iterator) {}
+       Iterator(const Iterator& other) : iterator(other.iterator->clone()) {}
        virtual ~Iterator() {delete(iterator);}
        void  operator++(int) {(*iterator)++;}
        T& operator*() const {return (*(*iterator));}
        bool operator==(const Iterator& rhs) const {return((iterator == rhs.iterator) || (*iterator == *(rhs.iterator)));}
        bool operator!=(const Iterator& rhs) const {return (!(*this == rhs));}
+
+       Iterator& operator=(const Iterator& rhs) {if (this != &rhs) iterator = (rhs.iterator->clone()); return (*this);}
 
    private:
 

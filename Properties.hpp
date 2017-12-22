@@ -7,8 +7,6 @@ class Properties
 
 public:
 
-   static const int MAX_PROPERTIES = 50;
-
    Properties();
 
    Properties(

@@ -64,7 +64,7 @@ public:
        virtual ~Iterator() {}
        virtual void  operator++(int) {node = (node->next == NULL) ? NULL : node->next;}
        virtual T& operator*() const {return (node->item);}
-       //virtual bool operator==(const Iterator& rhs) const {return (this->node == rhs.node);}
+       virtual typename List<T>::BaseIterator* clone() const {return new Iterator(*this);}
 
    protected:
 
@@ -224,13 +224,14 @@ typename List<T>::Iterator LinkedList<T>::erase(
    const typename List<T>::Iterator& iterator)
 {
    Serial.println("LinkedList<T>::erase is not implemented.");
+   return (end());
 }
 
 template<class T>
 void LinkedList<T>::clear()
 {
   Node* tmp = startNode;
-  while (startNode!=NULL)
+  while (startNode != NULL)
   {
     tmp = startNode;
     startNode = startNode->next;
